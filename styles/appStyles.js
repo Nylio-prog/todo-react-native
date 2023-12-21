@@ -36,6 +36,15 @@ export const HeaderView = styled.View`
   align-items: center;
 `;
 
+export const HeaderTitleIcon = styled.View`
+  padding-vertical: 10px;
+  margin-bottom: 10px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+`;
+
 export const HeaderTitle = styled.Text`
   font-size: 35px;
   font-weight: bold;
@@ -43,6 +52,7 @@ export const HeaderTitle = styled.Text`
   letter-spacing: 2px;
   font-style: italic;
 `;
+
 export const HeaderButton = styled.TouchableOpacity`
   font-weight: bold;
   color: ${colors.tertiary};
@@ -159,4 +169,18 @@ export const ModalActionGroup = styled.View`
 export const ModalIcon = styled.View`
   align-items: center;
   margin-bottom: 30px;
+`;
+
+//Icon
+export const RightIcon = styled.View`
+  position: absolute;
+  right: 0px;
+`;
+
+//Date
+export const DateText = styled.Text`
+  font-size: 16px;
+  font-weight: bold;
+  color: ${colors.tertiary};
+  letter-spacing: 2px;
 `;

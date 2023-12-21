@@ -1,7 +1,8 @@
 import { Modal } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { AntDesign } from "@expo/vector-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { AntDesign, Entypo } from "@expo/vector-icons";
 
 import {
   ModalButton,
@@ -13,6 +14,9 @@ import {
   ModalIcon,
   HeaderTitle,
   colors,
+  HeaderTitleIcon,
+  RightIcon,
+  DateText,
 } from "../styles/appStyles";
 
 const InputModal = ({
@@ -26,6 +30,42 @@ const InputModal = ({
   handleEditTodo,
   todos,
 }) => {
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState("date");
+  const [showDateTimePicker, setShowDateTimePicker] = useState(false);
+
+  // useEffect(() => {
+  //   if (todoToBeEdited?.date != null) {
+  //     let dateArray = todoToBeEdited.date.split("/");
+  //     setDate(new Date("20" + dateArray[2], dateArray[1] - 1, dateArray[0]));
+  //   }
+  // }, [todoToBeEdited]);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShowDateTimePicker(false);
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    setShowDateTimePicker(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
+
+  const showTimepicker = () => {
+    showMode("time");
+  };
+
+  const formattedDate = date.toLocaleDateString("en-US", {
+    year: "2-digit",
+    month: "2-digit",
+    day: "2-digit",
+  });
+
   const handleCloseModal = () => {
     setModalVisible(false);
     setTodoInputValue("");
@@ -36,7 +76,7 @@ const InputModal = ({
     if (!todoToBeEdited) {
       handleAddTodo({
         title: todoInputValue,
-        date: new Date().toUTCString(),
+        date: formattedDate,
         key: `${
           (todos[todos.length - 1] &&
             parseInt(todos[todos.length - 1].key) + 1) ||
@@ -46,7 +86,7 @@ const InputModal = ({
     } else {
       handleEditTodo({
         title: todoInputValue,
-        date: todoToBeEdited.date,
+        date: formattedDate,
         key: todoToBeEdited.key,
       });
     }
@@ -72,8 +112,24 @@ const InputModal = ({
         <ModalContainer>
           <ModalView>
             <ModalIcon>
-              <HeaderTitle>Todo</HeaderTitle>
-              <AntDesign name="edit" size={30} color={colors.tertiary} />
+              <HeaderTitleIcon>
+                <HeaderTitle>Todo</HeaderTitle>
+                <RightIcon>
+                  <ModalAction color={colors.primary} onPress={showDatepicker}>
+                    <Entypo name="calendar" size={30} color={colors.tertiary} />
+                  </ModalAction>
+                </RightIcon>
+              </HeaderTitleIcon>
+              {showDateTimePicker && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={date}
+                  mode={mode}
+                  is24Hour={true}
+                  onChange={onChange}
+                />
+              )}
+              <DateText>{formattedDate}</DateText>
             </ModalIcon>
             <StyledInput
               placeholder="Add a todo"
