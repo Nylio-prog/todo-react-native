@@ -12,11 +12,11 @@ import {
   ModalAction,
   ModalActionGroup,
   ModalIcon,
+  ModalDateText,
   HeaderTitle,
   colors,
-  HeaderTitleIcon,
   RightIcon,
-  DateText,
+  ModalTitleIcon,
 } from "../styles/appStyles";
 
 const InputModal = ({
@@ -28,18 +28,22 @@ const InputModal = ({
   todoToBeEdited,
   setTodoToBeEdited,
   handleEditTodo,
+  date,
+  setDate,
   todos,
 }) => {
-  const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [showDateTimePicker, setShowDateTimePicker] = useState(false);
 
-  // useEffect(() => {
-  //   if (todoToBeEdited?.date != null) {
-  //     let dateArray = todoToBeEdited.date.split("/");
-  //     setDate(new Date("20" + dateArray[2], dateArray[1] - 1, dateArray[0]));
-  //   }
-  // }, [todoToBeEdited]);
+  // If we're editing a date, we want to set the date to this date otherwise to the today's date
+  useEffect(() => {
+    if (todoToBeEdited?.date != null) {
+      const [month, day, year] = todoToBeEdited.date.split("/");
+      setDate(new Date(`20${year}`, month - 1, day));
+    } else {
+      setDate(new Date());
+    }
+  }, [todoToBeEdited]);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -61,9 +65,9 @@ const InputModal = ({
   };
 
   const formattedDate = date.toLocaleDateString("en-US", {
-    year: "2-digit",
     month: "2-digit",
     day: "2-digit",
+    year: "2-digit",
   });
 
   const handleCloseModal = () => {
@@ -78,8 +82,8 @@ const InputModal = ({
         title: todoInputValue,
         date: formattedDate,
         key: `${
-          (todos[todos.length - 1] &&
-            parseInt(todos[todos.length - 1].key) + 1) ||
+          (todos[todos?.length - 1] &&
+            parseInt(todos[todos?.length - 1].key) + 1) ||
           1
         }`,
       });
@@ -112,14 +116,14 @@ const InputModal = ({
         <ModalContainer>
           <ModalView>
             <ModalIcon>
-              <HeaderTitleIcon>
+              <ModalTitleIcon>
                 <HeaderTitle>Todo</HeaderTitle>
                 <RightIcon>
                   <ModalAction color={colors.primary} onPress={showDatepicker}>
                     <Entypo name="calendar" size={30} color={colors.tertiary} />
                   </ModalAction>
                 </RightIcon>
-              </HeaderTitleIcon>
+              </ModalTitleIcon>
               {showDateTimePicker && (
                 <DateTimePicker
                   testID="dateTimePicker"
@@ -129,7 +133,7 @@ const InputModal = ({
                   onChange={onChange}
                 />
               )}
-              <DateText>{formattedDate}</DateText>
+              <ModalDateText>{formattedDate}</ModalDateText>
             </ModalIcon>
             <StyledInput
               placeholder="Add a todo"

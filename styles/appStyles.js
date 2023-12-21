@@ -17,6 +17,13 @@ export const colors = {
   alternative: "#999999",
 };
 
+// export const colorsToTest = {
+//   primary: "#2E619E",
+//   secondary: "#D6CACF",
+//   tertiary: "#4484C2",
+//   alternative: "#999999",
+// };
+
 const statusBarHeight = Constants.statusBarHeight;
 
 export const Container = styled.SafeAreaView`
@@ -42,7 +49,6 @@ export const HeaderTitleIcon = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 300px;
 `;
 
 export const HeaderTitle = styled.Text`
@@ -51,6 +57,14 @@ export const HeaderTitle = styled.Text`
   color: ${colors.tertiary};
   letter-spacing: 2px;
   font-style: italic;
+`;
+
+export const HeaderDateText = styled.Text`
+  font-size: 20px;
+  font-weight: bold;
+  color: ${colors.tertiary};
+  letter-spacing: 2px;
+  text-align: center;
 `;
 
 export const HeaderButton = styled.TouchableOpacity`
@@ -89,6 +103,17 @@ export const ListViewHidden = styled.View`
 export const HiddenButton = styled.TouchableOpacity`
   width: 55px;
   align-items: center;
+`;
+
+export const NothingTodoText = styled.Text`
+  font-size: 24px;
+  letter-spacing: 2px;
+  color: ${colors.tertiary};
+  text-align: center;
+  font-weight: bold;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const TodoText = styled.Text`
@@ -139,6 +164,22 @@ export const ModalView = styled.View`
   padding: 35px;
 `;
 
+export const ModalTitleIcon = styled.View`
+  padding-vertical: 10px;
+  margin-bottom: 10px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+`;
+
+export const ModalDateText = styled.Text`
+  font-size: 14px;
+  font-weight: bold;
+  color: ${colors.tertiary};
+  letter-spacing: 2px;
+`;
+
 export const StyledInput = styled.TextInput`
   width: 300px;
   height: 50px;
@@ -177,10 +218,8 @@ export const RightIcon = styled.View`
   right: 0px;
 `;
 
-//Date
-export const DateText = styled.Text`
-  font-size: 16px;
-  font-weight: bold;
-  color: ${colors.tertiary};
-  letter-spacing: 2px;
+export const VerticalLine = styled.View`
+  border-bottom-color: ${colors.secondary};
+  border-bottom-width: 1px;
+  margin-bottom: 15px;
 `;
