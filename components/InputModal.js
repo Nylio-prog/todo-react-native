@@ -77,21 +77,24 @@ const InputModal = ({
   };
 
   const handleSubmit = () => {
+    const todoTitle = todoInputValue || "Doing nothing is not a todo";
     if (!todoToBeEdited) {
       handleAddTodo({
-        title: todoInputValue,
+        title: todoTitle,
         date: formattedDate,
         key: `${
           (todos[todos?.length - 1] &&
             parseInt(todos[todos?.length - 1].key) + 1) ||
           1
         }`,
+        completed: false,
       });
     } else {
       handleEditTodo({
-        title: todoInputValue,
+        title: todoTitle,
         date: formattedDate,
         key: todoToBeEdited.key,
+        completed: todoToBeEdited.completed,
       });
     }
     setTodoInputValue("");

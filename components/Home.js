@@ -10,22 +10,6 @@ const Home = ({ todos, setTodos }) => {
   const [todoInputValue, setTodoInputValue] = useState();
   const [todoToBeEdited, setTodoToBeEdited] = useState(null);
   const [date, setDate] = useState(new Date());
-  const [selectedDateTodos, setSelectedDateTodos] = useState(null);
-
-  useEffect(() => {
-    // Filter todos for the selected date
-    const filteredTodos = todos.filter((todo) => {
-      const [month, day, year] = todo.date.split("/");
-      const todoDate = new Date(new Date(`20${year}`, month - 1, day));
-      return (
-        todoDate.getDate() === date.getDate() &&
-        todoDate.getMonth() === date.getMonth() &&
-        todoDate.getFullYear() === date.getFullYear()
-      );
-    });
-
-    setSelectedDateTodos(filteredTodos);
-  }, [date, todos]);
 
   const handleClearTodos = () => {
     // Filter todos to keep only those not on the selected date
@@ -54,6 +38,7 @@ const Home = ({ todos, setTodos }) => {
     setModalVisible(true);
     setTodoInputValue(item.title);
   };
+
   const handleAddTodo = (todo) => {
     const newTodos = [...todos, todo];
 
@@ -86,9 +71,10 @@ const Home = ({ todos, setTodos }) => {
         setDate={setDate}
       />
       <ListItems
-        todos={selectedDateTodos}
-        setTodos={setSelectedDateTodos}
+        todos={todos}
+        setTodos={setTodos}
         handleTriggerEdit={handleTriggerEdit}
+        date={date}
       />
       <InputModal
         modalVisible={modalVisible}
@@ -99,7 +85,7 @@ const Home = ({ todos, setTodos }) => {
         todoToBeEdited={todoToBeEdited}
         setTodoToBeEdited={setTodoToBeEdited}
         handleEditTodo={handleEditTodo}
-        todos={selectedDateTodos}
+        todos={todos}
         date={date}
         setDate={setDate}
       />

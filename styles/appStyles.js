@@ -45,10 +45,11 @@ export const HeaderView = styled.View`
 
 export const HeaderTitleIcon = styled.View`
   padding-vertical: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  gap: 15px;
 `;
 
 export const HeaderTitle = styled.Text`
@@ -70,6 +71,18 @@ export const HeaderDateText = styled.Text`
 export const HeaderButton = styled.TouchableOpacity`
   font-weight: bold;
   color: ${colors.tertiary};
+`;
+
+export const ChevronButton = styled.TouchableOpacity`
+  width: 40px;
+  height: 40px;
+  background-color: ${colors.tertiary};
+  border-radius: 50px;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  font-weight: bold;
+  color: ${colors.primary};
 `;
 
 // List
@@ -95,7 +108,7 @@ export const ListViewHidden = styled.View`
   width: 100%;
   padding: 15px;
   justify-content: center;
-  align-items: flex-start;
+  align-items: flex-end;
   margin-bottom: 15px;
   border-radius: 11px;
 `;
@@ -105,15 +118,21 @@ export const HiddenButton = styled.TouchableOpacity`
   align-items: center;
 `;
 
-export const NothingTodoText = styled.Text`
-  font-size: 24px;
-  letter-spacing: 2px;
-  color: ${colors.tertiary};
-  text-align: center;
-  font-weight: bold;
-  margin-top: 20px;
+export const NothingTodoContainer = styled.View`
+  display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 65%;
+  vertical-align: middle;
+`;
+
+export const NothingTodoText = styled.Text`
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: ${colors.tertiary};
+  font-weight: bold;
+  font-style: italic;
 `;
 
 export const TodoText = styled.Text`
@@ -131,7 +150,7 @@ export const TodoDate = styled.Text`
 `;
 
 // Text for swiped todo row
-export const SwipedTodoText = styled(TodoText)`
+export const CompletedTodoText = styled(TodoText)`
   color: ${colors.alternative};
   font-style: italic;
   text-decoration: line-through;
