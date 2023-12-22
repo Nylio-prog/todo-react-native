@@ -3,6 +3,7 @@ import { StatusBar } from "expo-status-bar";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SplashScreen from "expo-splash-screen";
+import Snow from "react-native-snow-bg";
 
 //style components
 import { Container } from "./styles/appStyles";
@@ -13,6 +14,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
+  const [isSnowTheme, setIsSnowTheme] = useState(true);
 
   const initialTodos = [];
 
@@ -56,7 +58,15 @@ export default function App() {
 
   return (
     <Container onLayout={onLayoutRootView}>
-      <Home todos={todos} setTodos={setTodos} />
+      {isSnowTheme && (
+        <Snow fullScreen snowflakesCount={50} fallSpeed="medium" />
+      )}
+      <Home
+        todos={todos}
+        setTodos={setTodos}
+        isSnowTheme={isSnowTheme}
+        setIsSnowTheme={setIsSnowTheme}
+      />
       <StatusBar style="light" />
     </Container>
   );

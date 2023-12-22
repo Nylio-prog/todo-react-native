@@ -107,7 +107,7 @@ const InputModal = ({
           setModalVisible(true);
         }}
       >
-        <AntDesign name="plus" size={30} color={colors.secondary} />
+        <AntDesign name="plus" size={30} color={colors.primary} />
       </ModalButton>
 
       <Modal

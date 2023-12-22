@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { SwipeListView } from "react-native-swipe-list-view";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, AntDesign } from "@expo/vector-icons";
 import {
   ListView,
   ListViewHidden,
@@ -11,7 +11,7 @@ import {
   NothingTodoContainer,
   NothingTodoText,
   TodoText,
-  TodoDate,
+  RowCompleteIcon,
   colors,
 } from "./../styles/appStyles";
 const ListItems = ({ todos, setTodos, handleTriggerEdit, date }) => {
@@ -59,8 +59,6 @@ const ListItems = ({ todos, setTodos, handleTriggerEdit, date }) => {
         completed: true,
       };
 
-      console.log(newTodos);
-
       AsyncStorage.setItem("storedTodos", JSON.stringify(newTodos))
         .then(() => {
           setTodos(newTodos);
@@ -103,7 +101,17 @@ const ListItems = ({ todos, setTodos, handleTriggerEdit, date }) => {
               >
                 <>
                   <RowText>{data.item.title}</RowText>
-                  <TodoDate>{data.item.date}</TodoDate>
+                  <RowCompleteIcon>
+                    {data.item.completed ? (
+                      <AntDesign
+                        name="checkcircle"
+                        size={24}
+                        color={colors.tertiary}
+                      />
+                    ) : (
+                      <Entypo name="circle" size={24} color={colors.tertiary} />
+                    )}
+                  </RowCompleteIcon>
                 </>
               </ListView>
             );
@@ -118,7 +126,7 @@ const ListItems = ({ todos, setTodos, handleTriggerEdit, date }) => {
             );
           }}
           rightOpenValue={-80}
-          leftActivationValue={125}
+          leftActivationValue={100}
           onLeftAction={(todoKey) => {
             handleCompleteTodo(todoKey);
           }}

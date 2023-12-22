@@ -11,18 +11,11 @@ import Constants from "expo-constants";
 
 // Colors
 export const colors = {
-  primary: "#332424",
-  secondary: "#4D3636",
-  tertiary: "#E6E6E6",
-  alternative: "#999999",
+  primary: "#3C5A6B", // Icy Blue
+  secondary: "#F49578", // Warm Coral
+  tertiary: "#F0E5D8", // Soft Cream
+  alternative: "#7F848E", // Cool Gray
 };
-
-// export const colorsToTest = {
-//   primary: "#2E619E",
-//   secondary: "#D6CACF",
-//   tertiary: "#4484C2",
-//   alternative: "#999999",
-// };
 
 const statusBarHeight = Constants.statusBarHeight;
 
@@ -97,7 +90,9 @@ export const ListView = styled.TouchableHighlight`
   min-height: 85px;
   width: 100%;
   padding: 15px;
-  justify-content: space-around;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 15px;
   border-radius: 10px;
 `;
@@ -110,7 +105,7 @@ export const ListViewHidden = styled.View`
   justify-content: center;
   align-items: flex-end;
   margin-bottom: 15px;
-  border-radius: 11px;
+  border-radius: 10px;
 `;
 
 export const HiddenButton = styled.TouchableOpacity`
@@ -119,12 +114,11 @@ export const HiddenButton = styled.TouchableOpacity`
 `;
 
 export const NothingTodoContainer = styled.View`
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 65%;
-  vertical-align: middle;
+  margin-bottom: 45px;
 `;
 
 export const NothingTodoText = styled.Text`
@@ -141,7 +135,7 @@ export const TodoText = styled.Text`
   color: ${colors.tertiary};
 `;
 
-export const TodoDate = styled.Text`
+export const RowCompleteIcon = styled.Text`
   font-size: 10px;
   letter-spacing: 1px;
   color: ${colors.alternative};
@@ -166,7 +160,6 @@ export const ModalButton = styled.TouchableOpacity`
   align-items: center;
   align-self: center;
   position: absolute;
-  bottom: 15px;
 `;
 
 export const ModalContainer = styled.View`
@@ -241,4 +234,15 @@ export const VerticalLine = styled.View`
   border-bottom-color: ${colors.secondary};
   border-bottom-width: 1px;
   margin-bottom: 15px;
+`;
+
+export const FooterContainer = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  background-color: ${colors.primary};
+  bottom: 30px;
+  width: 100%;
+  height: 60px;
 `;

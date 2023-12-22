@@ -1,11 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { Entypo } from "@expo/vector-icons";
 
 import Header from "./Header";
 import ListItems from "./ListItems";
 import InputModal from "./InputModal";
+import {
+  FooterContainer,
+  RightIcon,
+  HeaderButton,
+  colors,
+} from "../styles/appStyles";
+import { View } from "react-native";
 
-const Home = ({ todos, setTodos }) => {
+const Home = ({ todos, setTodos, isSnowTheme, setIsSnowTheme }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [todoInputValue, setTodoInputValue] = useState();
   const [todoToBeEdited, setTodoToBeEdited] = useState(null);
@@ -76,19 +85,35 @@ const Home = ({ todos, setTodos }) => {
         handleTriggerEdit={handleTriggerEdit}
         date={date}
       />
-      <InputModal
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        todoInputValue={todoInputValue}
-        setTodoInputValue={setTodoInputValue}
-        handleAddTodo={handleAddTodo}
-        todoToBeEdited={todoToBeEdited}
-        setTodoToBeEdited={setTodoToBeEdited}
-        handleEditTodo={handleEditTodo}
-        todos={todos}
-        date={date}
-        setDate={setDate}
-      />
+      <FooterContainer>
+        <InputModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          todoInputValue={todoInputValue}
+          setTodoInputValue={setTodoInputValue}
+          handleAddTodo={handleAddTodo}
+          todoToBeEdited={todoToBeEdited}
+          setTodoToBeEdited={setTodoToBeEdited}
+          handleEditTodo={handleEditTodo}
+          todos={todos}
+          date={date}
+          setDate={setDate}
+        />
+        <RightIcon>
+          <HeaderButton
+            color={colors.primary}
+            onPress={() => setIsSnowTheme((prevTheme) => !prevTheme)}
+          >
+            <>
+              <Entypo
+                name={isSnowTheme ? "eye" : "eye-with-line"}
+                size={26}
+                color={colors.tertiary}
+              />
+            </>
+          </HeaderButton>
+        </RightIcon>
+      </FooterContainer>
     </>
   );
 };
