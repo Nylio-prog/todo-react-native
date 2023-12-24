@@ -246,3 +246,10 @@ export const FooterContainer = styled.View`
   width: 100%;
   height: 60px;
 `;
+
+export const CheckboxContainer = styled.View`
+  margin-top: 10px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+`;

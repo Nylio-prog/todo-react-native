@@ -10,15 +10,16 @@ import {
 } from "date-fns";
 import { Entypo } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
+
 import {
   ChevronButton,
   HeaderButton,
   HeaderDateText,
   HeaderTitleIcon,
   RightIcon,
-  LeftIcon, // Added LeftIcon
   colors,
 } from "../styles/appStyles";
+
 
 const DateDisplay = ({ date, setDate }) => {
   const [mode, setMode] = useState("date");

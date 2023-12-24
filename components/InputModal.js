@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { AntDesign, Entypo } from "@expo/vector-icons";
+import Checkbox from "expo-checkbox";
+
+import { schedulePushNotification } from "./utils/handle-local-notification";
 
 import {
   ModalButton,
@@ -17,6 +20,7 @@ import {
   colors,
   RightIcon,
   ModalTitleIcon,
+  CheckboxContainer,
 } from "../styles/appStyles";
 
 const InputModal = ({
@@ -32,8 +36,9 @@ const InputModal = ({
   setDate,
   todos,
 }) => {
-  const [mode, setMode] = useState("date");
-  const [showDateTimePicker, setShowDateTimePicker] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showTimePicker, setShowTimePicker] = useState(false);
+  const [reminderChecked, setReminderChecked] = useState(false);
 
   // If we're editing a date, we want to set the date to this date otherwise to the today's date
   useEffect(() => {
@@ -45,23 +50,25 @@ const InputModal = ({
     }
   }, [todoToBeEdited]);
 
-  const onChange = (event, selectedDate) => {
+  useEffect(() => {
+    setShowTimePicker(reminderChecked);
+  }, [reminderChecked]);
+
+  const handleLocalPushNotification = async (title, date) => {
+    await schedulePushNotification(title, date);
+  };
+
+  const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate;
-    setShowDateTimePicker(false);
+    setShowDatePicker(false);
     setDate(currentDate);
   };
 
-  const showMode = (currentMode) => {
-    setShowDateTimePicker(true);
-    setMode(currentMode);
-  };
-
-  const showDatepicker = () => {
-    showMode("date");
-  };
-
-  const showTimepicker = () => {
-    showMode("time");
+  const onChangeTime = (event, selectedTime) => {
+    let currentTime = selectedTime;
+    currentTime.setSeconds(0); //Notification is sent at the beginning of the minute
+    setShowTimePicker(false);
+    setDate(currentTime);
   };
 
   const formattedDate = date.toLocaleDateString("en-US", {
@@ -74,6 +81,7 @@ const InputModal = ({
     setModalVisible(false);
     setTodoInputValue("");
     setTodoToBeEdited(null);
+    setReminderChecked(false);
   };
 
   const handleSubmit = () => {
@@ -97,7 +105,14 @@ const InputModal = ({
         completed: todoToBeEdited.completed,
       });
     }
+
+    //send notification if reminder
+    if (reminderChecked) {
+      console.log(date);
+      handleLocalPushNotification(todoTitle, date);
+    }
     setTodoInputValue("");
+    setReminderChecked(false);
   };
 
   return (
@@ -122,18 +137,21 @@ const InputModal = ({
               <ModalTitleIcon>
                 <HeaderTitle>Todo</HeaderTitle>
                 <RightIcon>
-                  <ModalAction color={colors.primary} onPress={showDatepicker}>
+                  <ModalAction
+                    color={colors.primary}
+                    onPress={setShowDatePicker}
+                  >
                     <Entypo name="calendar" size={30} color={colors.tertiary} />
                   </ModalAction>
                 </RightIcon>
               </ModalTitleIcon>
-              {showDateTimePicker && (
+              {showDatePicker && (
                 <DateTimePicker
                   testID="dateTimePicker"
                   value={date}
-                  mode={mode}
+                  mode="date"
                   is24Hour={true}
-                  onChange={onChange}
+                  onChange={onChangeDate}
                 />
               )}
               <ModalDateText>{formattedDate}</ModalDateText>
@@ -147,7 +165,24 @@ const InputModal = ({
               value={todoInputValue}
               onSubmitEditing={handleSubmit}
             />
-
+            <CheckboxContainer>
+              <ModalDateText>Reminder ?</ModalDateText>
+              <Checkbox
+                color={reminderChecked ? colors.primary : undefined}
+                style={{ margin: 8 }}
+                value={reminderChecked}
+                onValueChange={setReminderChecked}
+              />
+              {showTimePicker && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={date}
+                  mode="time"
+                  is24Hour={true}
+                  onChange={onChangeTime}
+                />
+              )}
+            </CheckboxContainer>
             <ModalActionGroup>
               <ModalAction color={colors.primary} onPress={handleCloseModal}>
                 <AntDesign name="close" size={28} color={colors.tertiary} />

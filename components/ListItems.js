@@ -56,7 +56,7 @@ const ListItems = ({ todos, setTodos, handleTriggerEdit, date }) => {
     if (todoIndex !== -1) {
       newTodos[todoIndex] = {
         ...newTodos[todoIndex],
-        completed: true,
+        completed: !newTodos[todoIndex].completed,
       };
 
       AsyncStorage.setItem("storedTodos", JSON.stringify(newTodos))

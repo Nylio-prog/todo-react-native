@@ -12,7 +12,6 @@ import {
   HeaderButton,
   colors,
 } from "../styles/appStyles";
-import { View } from "react-native";
 
 const Home = ({ todos, setTodos, isSnowTheme, setIsSnowTheme }) => {
   const [modalVisible, setModalVisible] = useState(false);

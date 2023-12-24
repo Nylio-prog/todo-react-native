@@ -9,6 +9,17 @@ import Snow from "react-native-snow-bg";
 import { Container } from "./styles/appStyles";
 import Home from "./components/Home";
 
+import { useLocalNotification } from "./components/hooks/use-local-notification";
+import * as Notifications from "expo-notifications";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false
+  })
+});
+
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
@@ -19,6 +30,8 @@ export default function App() {
   const initialTodos = [];
 
   const [todos, setTodos] = useState(initialTodos);
+
+  useLocalNotification();
 
   useEffect(() => {
     async function prepare() {
