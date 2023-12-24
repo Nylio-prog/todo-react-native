@@ -26,7 +26,8 @@
     "styled-components": "^6.1.1",
     "expo-notifications": "~0.20.1",
     "expo-device": "~5.4.0",
-    "expo-checkbox": "~2.4.0"
+    "expo-checkbox": "~2.4.0",
+    "expo-crypto": "~12.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

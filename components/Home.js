@@ -13,30 +13,48 @@ import {
   colors,
 } from "../styles/appStyles";
 
+import { cancelScheduledNotification } from "./utils/handle-local-notification";
+
 const Home = ({ todos, setTodos, isSnowTheme, setIsSnowTheme }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [todoInputValue, setTodoInputValue] = useState();
   const [todoToBeEdited, setTodoToBeEdited] = useState(null);
   const [date, setDate] = useState(new Date());
 
+  const handleCancelPushNotification = async (uuid) => {
+    await cancelScheduledNotification(uuid);
+  };
+
   const handleClearTodos = () => {
-    // Filter todos to keep only those not on the selected date
-    const updatedTodos = todos.filter((todo) => {
-      const [month, day, year] = todo.date.split("/");
-      const todoDate = new Date(new Date(`20${year}`, month - 1, day));
-      return (
-        todoDate.getDate() !== date.getDate() ||
-        todoDate.getMonth() !== date.getMonth() ||
-        todoDate.getFullYear() !== date.getFullYear()
-      );
+    // Partition the todos into two arrays: toDelete and toKeep
+    const { toDelete, toKeep } = todos.reduce(
+      (acc, todo) => {
+        const [month, day, year] = todo.date.split("/");
+        const todoDate = new Date(new Date(`20${year}`, month - 1, day));
+
+        if (
+          todoDate.getDate() === date.getDate() &&
+          todoDate.getMonth() === date.getMonth() &&
+          todoDate.getFullYear() === date.getFullYear()
+        ) {
+          acc.toDelete.push(todo);
+        } else {
+          acc.toKeep.push(todo);
+        }
+
+        return acc;
+      },
+      { toDelete: [], toKeep: [] }
+    );
+
+    // Cancel notifications for todos to be deleted
+    toDelete.forEach((todo) => {
+      handleCancelPushNotification(todo.uuid);
     });
 
-    AsyncStorage.setItem(
-      "storedTodos",
-      JSON.stringify(updatedTodos?.length > 0 ? updatedTodos : [])
-    )
+    AsyncStorage.setItem("storedTodos", JSON.stringify(toKeep))
       .then(() => {
-        setTodos(updatedTodos); //Also triggers to reset the selectedDateTodos
+        setTodos(toKeep); // Also triggers to reset the selectedDateTodos
       })
       .catch((error) => console.log(error));
   };

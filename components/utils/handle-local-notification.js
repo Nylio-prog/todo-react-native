@@ -2,9 +2,9 @@ import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
 
-export const schedulePushNotification = async (title, date) => {
+export const schedulePushNotification = async (title, date, uuid) => {
   await Notifications.scheduleNotificationAsync({
-    identifier: "review",
+    identifier: uuid,
     content: {
       title: "Reminder",
       subtitle: "Don't forget to do this !",
@@ -14,6 +14,14 @@ export const schedulePushNotification = async (title, date) => {
       date: date.getTime(),
     },
   });
+};
+
+export const cancelScheduledNotification = async (identifier) => {
+  try {
+    await Notifications.cancelScheduledNotificationAsync(identifier);
+  } catch (error) {
+    console.error("Error canceling scheduled notification:", error);
+  }
 };
 
 export const registerForPushNotificationsAsync = async () => {

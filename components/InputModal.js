@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
+import * as Crypto from "expo-crypto";
 
 import { schedulePushNotification } from "./utils/handle-local-notification";
 
@@ -54,8 +55,8 @@ const InputModal = ({
     setShowTimePicker(reminderChecked);
   }, [reminderChecked]);
 
-  const handleLocalPushNotification = async (title, date) => {
-    await schedulePushNotification(title, date);
+  const handleLocalPushNotification = async (title, date, uuid) => {
+    await schedulePushNotification(title, date, uuid);
   };
 
   const onChangeDate = (event, selectedDate) => {
@@ -86,7 +87,10 @@ const InputModal = ({
 
   const handleSubmit = () => {
     const todoTitle = todoInputValue || "Doing nothing is not a todo";
+    let todoUuid;
     if (!todoToBeEdited) {
+      todoUuid = Crypto.randomUUID();
+      console.log(todoUuid);
       handleAddTodo({
         title: todoTitle,
         date: formattedDate,
@@ -96,20 +100,22 @@ const InputModal = ({
           1
         }`,
         completed: false,
+        uuid: todoUuid,
       });
     } else {
+      todoUuid = todoToBeEdited.uuid;
       handleEditTodo({
         title: todoTitle,
         date: formattedDate,
         key: todoToBeEdited.key,
         completed: todoToBeEdited.completed,
+        uuid: todoUuid,
       });
     }
 
     //send notification if reminder
     if (reminderChecked) {
-      console.log(date);
-      handleLocalPushNotification(todoTitle, date);
+      handleLocalPushNotification(todoTitle, date, todoUuid);
     }
     setTodoInputValue("");
     setReminderChecked(false);

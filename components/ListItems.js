@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { SwipeListView } from "react-native-swipe-list-view";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { cancelScheduledNotification } from "./utils/handle-local-notification";
 
 import { Entypo, AntDesign } from "@expo/vector-icons";
 import {
@@ -49,6 +50,10 @@ const ListItems = ({ todos, setTodos, handleTriggerEdit, date }) => {
     }
   }, [selectedDateTodos]);
 
+  const handleCancelPushNotification = async (uuid) => {
+    await cancelScheduledNotification(uuid);
+  };
+
   const handleCompleteTodo = (todoKey) => {
     const newTodos = [...todos];
     const todoIndex = todos.findIndex((todo) => todo.key === todoKey);
@@ -58,6 +63,8 @@ const ListItems = ({ todos, setTodos, handleTriggerEdit, date }) => {
         ...newTodos[todoIndex],
         completed: !newTodos[todoIndex].completed,
       };
+      console.log(newTodos[todoIndex].uuid);
+      handleCancelPushNotification(newTodos[todoIndex].uuid);
 
       AsyncStorage.setItem("storedTodos", JSON.stringify(newTodos))
         .then(() => {
@@ -70,6 +77,7 @@ const ListItems = ({ todos, setTodos, handleTriggerEdit, date }) => {
   const handleDeleteTodo = (rowKey) => {
     const newTodos = [...todos];
     const todoIndex = todos.findIndex((todo) => todo.key === rowKey);
+    handleCancelPushNotification(newTodos[todoIndex].uuid);
     newTodos.splice(todoIndex, 1);
 
     AsyncStorage.setItem("storedTodos", JSON.stringify(newTodos))
