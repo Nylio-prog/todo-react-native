@@ -132,6 +132,8 @@ const ListItems = ({ todos, setTodos, handleTriggerEdit, date }) => {
               </ListViewHidden>
             );
           }}
+          restSpeedThreshold={100}
+          restDisplacementThreshold={40}
           rightOpenValue={-80}
           leftActivationValue={100}
           onLeftAction={(todoKey) => {

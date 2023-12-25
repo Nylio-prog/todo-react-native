@@ -90,7 +90,6 @@ const InputModal = ({
     let todoUuid;
     if (!todoToBeEdited) {
       todoUuid = Crypto.randomUUID();
-      console.log(todoUuid);
       handleAddTodo({
         title: todoTitle,
         date: formattedDate,
