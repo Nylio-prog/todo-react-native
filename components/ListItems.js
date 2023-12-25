@@ -63,7 +63,6 @@ const ListItems = ({ todos, setTodos, handleTriggerEdit, date }) => {
         ...newTodos[todoIndex],
         completed: !newTodos[todoIndex].completed,
       };
-      console.log(newTodos[todoIndex].uuid);
       handleCancelPushNotification(newTodos[todoIndex].uuid);
 
       AsyncStorage.setItem("storedTodos", JSON.stringify(newTodos))
